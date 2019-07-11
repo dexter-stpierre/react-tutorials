@@ -14,4 +14,6 @@ Running this app requires an installation of Node.js. I would suggest installing
 
 ## Running The App
 
-To run the app `cd` into this directory and and run `npm start`
+1. `cd` into this directory
+2. Run `npm install`
+3. Run `npm start`
