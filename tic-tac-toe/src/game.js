@@ -69,11 +69,11 @@ export class Game extends React.Component {
     }
     const history = this.state.history;
     const current = history[this.state.currentTurn];
-    const winner = calculateWinner(current.squares);
+    const winner = calculateWinner(this.state.players, current.squares);
     let currentPlayerIndex = this.state.currentTurn % this.state.players.length;
     let status;
     if (winner) {
-      status = 'winner: ' + winner;
+      status = 'winner: ' + winner.name;
     } else {
       status = 'Next Player: ' + (this.state.players[currentPlayerIndex].name);
     }
@@ -140,7 +140,7 @@ export class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.currentTurn + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (calculateWinner(this.state.players, squares) || squares[i]) {
       return;
     }
     let currentPlayerIndex = this.state.currentTurn % this.state.players.length;
@@ -154,7 +154,11 @@ export class Game extends React.Component {
   }
 }
 
-function calculateWinner(squares) {
+/**
+ * @param  any[] players
+ * @param  Array squares
+ */
+function calculateWinner(players, squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -168,7 +172,8 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      const winner = players.find((value, index) => value.symbol === squares[a])
+      return winner;
     }
   }
   return null;
