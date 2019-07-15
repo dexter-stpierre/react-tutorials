@@ -15,11 +15,11 @@ export class Game extends React.Component {
       players: [
         {
           name: 'Player 1',
-          symbol: 'x',
+          symbol: 'X',
         },
         {
           name: 'Player 2',
-          symbol: 'o',
+          symbol: 'O',
         },
       ],
       playersNamed: false,
@@ -73,7 +73,7 @@ export class Game extends React.Component {
     let currentPlayerIndex = this.state.currentTurn % this.state.players.length;
     let status;
     if (winner) {
-      status = 'winner: ' + winner.name;
+      status = 'Winner: ' + winner.name;
     } else {
       status = 'Next Player: ' + (this.state.players[currentPlayerIndex].name);
     }
