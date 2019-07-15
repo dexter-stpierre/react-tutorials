@@ -30,15 +30,32 @@ export class Game extends React.Component {
     const players = this.state.players.slice();
     const playersInputs = players.map((player, index) => {
       return (
-        <input
-          key={index}
-          value={player.name}
-          onChange={(event) => this.onPlayerNameChange(index, event.target.value)}
-        />
+        <fieldset key={index}>
+          <legend>
+            Player {index + 1}
+          </legend>
+          <label htmlFor={'player' + index + 'name'} >
+            Name:
+          </label>
+          <input
+            name={'player' + index + 'name'}
+            value={player.name}
+            onChange={(event) => this.onPlayerNameChange(index, event.target.value)}
+          />
+          <label htmlFor={'player' + index + 'symbol'} >
+            Symbol:
+          </label>
+          <input
+            name={'player' + index + 'symbol'}
+            value={player.symbol}
+            onChange={(event) => this.onPlayerSymbolChange(index, event)}
+          />
+
+        </fieldset>
       )
     })
     return (
-      <form onSubmit={this.savePlayerNames}>
+      <form className="player-name-form" onSubmit={this.savePlayers}>
         {playersInputs}
         <button type="submit">Save</button>
       </form>
@@ -96,7 +113,18 @@ export class Game extends React.Component {
     })
   }
 
-  savePlayerNames = (e) =>  {
+  onPlayerSymbolChange(playerIndex, event) {
+    event.persist();
+    console.log(event)
+    const symbol = event.nativeEvent.data;
+    const players = this.state.players.slice();
+    players[playerIndex].symbol = symbol;
+    this.setState({
+      players,
+    })
+  }
+
+  savePlayers = (e) =>  {
     console.log('saving players');
     e.preventDefault();
     this.setState({playersNamed: true})
