@@ -21,11 +21,35 @@ export class Game extends React.Component {
           name: 'Player 2',
           symbol: 'o',
         },
-      ]
+      ],
+      playersNamed: false,
     }
   }
 
+  renderPlayerNameScreen() {
+    const players = this.state.players.slice();
+    const playersInputs = players.map((player, index) => {
+      return (
+        <input
+          key={index}
+          value={player.name}
+          onChange={(event) => this.onPlayerNameChange(index, event.target.value)}
+        />
+      )
+    })
+    return (
+      <form onSubmit={this.savePlayerNames}>
+        {playersInputs}
+        <button type="submit">Save</button>
+      </form>
+    );
+  }
+
   render() {
+
+    if (!this.state.playersNamed) {
+      return this.renderPlayerNameScreen();
+    }
     const history = this.state.history;
     const current = history[this.state.currentTurn];
     const winner = calculateWinner(current.squares);
@@ -62,6 +86,20 @@ export class Game extends React.Component {
         </div>
       </div>
     );
+  }
+
+  onPlayerNameChange(playerIndex, name) {
+    const players = this.state.players.slice();
+    players[playerIndex].name = name;
+    this.setState({
+      players,
+    })
+  }
+
+  savePlayerNames = (e) =>  {
+    console.log('saving players');
+    e.preventDefault();
+    this.setState({playersNamed: true})
   }
 
   jumpTo(step) {
