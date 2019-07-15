@@ -11,20 +11,30 @@ export class Game extends React.Component {
           squares: Array(9).fill(null)
         },
       ],
-      stepNumber: 0,
-      xIsNext: true,
+      currentTurn: 0,
+      players: [
+        {
+          name: 'Player 1',
+          symbol: 'x',
+        },
+        {
+          name: 'Player 2',
+          symbol: 'o',
+        },
+      ]
     }
   }
 
   render() {
     const history = this.state.history;
-    const current = history[this.state.stepNumber];
+    const current = history[this.state.currentTurn];
     const winner = calculateWinner(current.squares);
+    let currentPlayerIndex = this.state.currentTurn % this.state.players.length;
     let status;
     if (winner) {
       status = 'winner: ' + winner;
     } else {
-      status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
+      status = 'Next Player: ' + (this.state.players[currentPlayerIndex].name);
     }
 
     const moves = history.map((step, move) => {
@@ -56,25 +66,24 @@ export class Game extends React.Component {
 
   jumpTo(step) {
     this.setState({
-      stepNumber: step,
-      xIsNext: (step % 2) === 0,
+      currentTurn: step,
     });
   }
 
   handleClick(i) {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const history = this.state.history.slice(0, this.state.currentTurn + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    let currentPlayerIndex = this.state.currentTurn % this.state.players.length;
+    squares[i] = this.state.players[currentPlayerIndex].symbol;
     this.setState({
       history: history.concat([{
         squares,
       }]),
-      stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      currentTurn: history.length,
     });
   }
 }
