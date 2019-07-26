@@ -3,26 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    console.log('constructor');
-  }
-
-  componentWillMount() {
-    console.log('will mount');
-  }
-
-  componentDidMount() {
-    console.log('mounted');
-  }
-
   state = {
-    toggle: true
+    input: 'hello'
   };
 
-  toggle = () => {
+  submit = () => {
+    console.log(this.text.value);
+  };
+
+  updateInput = event => {
+    event.persist();
+    console.log(event.target.value);
     this.setState({
-      toggle: !this.state.toggle
+      input: event.target.value.trim()
     });
   };
 
@@ -43,8 +36,13 @@ class App extends Component {
           >
             Learn React
           </a>
-          {this.state.toggle && <p>This should show and hide</p>}
-          <button onClick={this.toggle}>Show/Hide</button>
+          <input
+            type="text"
+            value={this.state.input}
+            onChange={this.updateInput}
+          />
+          <input type="text" ref={input => (this.text = input)} />
+          <button onClick={this.submit}>Show/Hide</button>
         </header>
       </div>
     );
