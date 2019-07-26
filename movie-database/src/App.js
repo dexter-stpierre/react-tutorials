@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Welcome text="Welcome to using props" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -21,6 +22,13 @@ function App() {
       </header>
     </div>
   );
+}
+
+class Welcome extends Component {
+  render() {
+    const { text } = this.props;
+    return <h1>{text}</h1>;
+  }
 }
 
 export default App;
