@@ -52,3 +52,7 @@ ol, ul {
 .player-name-form {
   max-width: 25%;
 }
+
+.move.selected-move {
+  font-weight: bold;
+}
